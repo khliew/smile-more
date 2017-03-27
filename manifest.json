@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Smile More",
-  "description": "This extensions automatically redirects Amazon.com websites to the happier version, if available.",
+  "description": "This extension automatically redirects Amazon.com webpages to their happier versions, if available.",
   "version": "1.0",
 
   "background": {
