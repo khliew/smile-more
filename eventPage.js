@@ -2,7 +2,8 @@
  * Returns the URL to redirect to.
  */
 function getRedirectedUrl(url) {
-  return 'https://smile.amazon' + url.substr(18);
+  var regex = /(.*)www.amazon.com(.*)/;
+  return url.replace(regex, '$1smile.amazon.com$2');
 }
 
 /**
