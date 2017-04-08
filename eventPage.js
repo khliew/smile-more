@@ -2,8 +2,8 @@
  * Returns the URL to redirect to.
  */
 function getRedirectedUrl(url) {
-  var regex = /(.*)www.amazon.com(.*)/;
-  return url.replace(regex, '$1smile.amazon.com$2');
+  var regex = /(.*)www\.amazon\.(.*)/;
+  return url.replace(regex, '$1smile.amazon.$2');
 }
 
 /**
@@ -28,6 +28,7 @@ function onBeforeNavigate(details) {
 
 chrome.webNavigation.onBeforeNavigate.addListener(onBeforeNavigate, {
   url: [
-    {hostEquals: 'www.amazon.com'}
+    {hostEquals: 'www.amazon.com'},
+    {hostEquals: 'www.amazon.de'}
   ]
 });
