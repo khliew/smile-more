@@ -1,11 +1,18 @@
 <!doctype html>
 <html>
   <head>
-    <script src="popup.js"></script>
+    <title>Extension Popup</title>
+    <link href="popup.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
-    <div>Status: <div id="status"></div></div><br>
-    <div>Original url: <div id="original"></div></div><br>
-    <div>Redirected url: <div id="redirected"></div></div>
+    <h1 id="title">Smile More</h1>
+    <div>
+      <label>
+        <input type="checkbox" id="enableExtension">
+        Enable Smile More
+      </label>
+    </div>
+
+    <script src="popup.js"></script>
   </body>
 </html>

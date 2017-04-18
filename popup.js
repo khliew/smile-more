@@ -1,63 +1,42 @@
-/**
- * Gets the current URL.
- *
- * @param {function(string)} callback - called when the URL of the current tab is found.
- */
-function getCurrentTabUrl(callback) {
-  var queryInfo = {
-    active: true,
-    currentWindow: true
-  };
+/** Storage key for enabling extension. */
+const KEY_ENABLED = 'enabled';
 
-  chrome.tabs.query(queryInfo, function(tabs) {
-    var tab = tabs[0];
-    var url = tab.url;
-    callback(url);
+/** The extension-enabled element. */
+let enabledCheckbox;
+
+/**
+ * Load settings.
+ */
+function loadSettings() {
+  chrome.storage.sync.get({[KEY_ENABLED]: true}, function(items) {
+    setExtensionEnabled(items.enabled);
   });
 }
 
 /**
- * Returns {@code true} if a URL can be redirected.
+ * Saves a setting value.
  */
-function isRedirectable(url) {
-  return url.startsWith('https://www.amazon');
+function saveSetting(key, value) {
+  chrome.storage.sync.set({[key]: value});
 }
 
 /**
- * Gets the redirected version of a URL.
+ * Sets whether or not the extension is enabled.
  */
-function getRedirectedUrl(url) {
-  return 'https://smile.amazon' + url.substr(18);
-}
-
-function setStatus(text) {
-  document.getElementById('status').textContent = text;
+function setExtensionEnabled(enabled) {
+  enabledCheckbox.checked = enabled;
 }
 
 /**
- * Directs the current active tab to a URL.
+ * Callback for enabled changes.
  */
-function sendCurrentTabTo(url) {
-  var updateProps = {
-    url: url
-  }
-  chrome.tabs.update(updateProps);
+function onEnableExtensionChange(event) {
+  saveSetting(KEY_ENABLED, event.target.checked);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  getCurrentTabUrl(function(url) {
-    document.getElementById('original').textContent = url;
-    if (isRedirectable(url)) {
-      setStatus('Success!');
-      var redirected = getRedirectedUrl(url);
-      document.getElementById('redirected').textContent = redirected;
+  enabledCheckbox = document.getElementById('enableExtension');
+  enabledCheckbox.onchange = onEnableExtensionChange;
 
-      sendCurrentTabTo(redirected);
-    } else {
-      setStatus('Not redirectable!');
-    }
-  }, function(errorMessage) {
-    setStatus('Error: ' + errorMessage);
-    document.getElementById('original').textContent = url;
-  });
+  loadSettings();
 });

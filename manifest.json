@@ -15,6 +15,7 @@
     "default_title": "Smile More! :D"
   },
   "permissions": [
+    "storage",
     "tabs",
     "webNavigation"
   ]
